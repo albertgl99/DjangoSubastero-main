@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="flex justify-center items-center h-screen mt-14 mb-14">
+    <div class="w-2/4 p-6 bg-white shadow-2xl border border-gray-200 rounded-lg flex flex-col">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{error}}
+        <h2 class="text-xl font-semibold leading-7 text-gray-900">Datos Personales</h2>
+        <br>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text"  name="matricula" id="matricula" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="matricula" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Matricula</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="marca" id="marca" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="marca" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Marca</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="modelo" id="modelo" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="modelo" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Modelo</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" pattern="[0-9]{4}" name="ano" id="ano" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="ano" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Año</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="cilindrada" id="cilindrada" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="cilindrada" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cilindrada</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="km" id="km" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="km" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kilómetros</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="precioVenta" id="precioVenta" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="precioVenta" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Precio de Venta</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-6 group">
+            <input datepicker type="text" name="FechaSubasta" id="FechaSubasta" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <label for="FechaSubasta" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha Subasta</label>
+        </div>
+
+        <div class="relative z-0 w-full mb-4 group">
+            <label for="carImage" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div id="image-drop-zone" class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                <input id="carImage" name="carImage" type="file" class="hidden" />
+            </label>          
+        </div>
+
+        <div class="flex justify-center items-center">
+            <button type="submit" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-900 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Enviar</button>
+        </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="{% static 'js/awesomplete.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- Agrega la biblioteca jQuery UI -->
+
+<script>
+    const imageDropZone = document.getElementById('image-drop-zone');
+    const carImageInput = document.getElementById('carImage');
+
+    // Function to update the list of selected files
+    function updateImageList(files) {
+        const fileList = Array.from(files).map(file => `<p>Selected: ${file.name}</p>`).join('');
+        imageDropZone.innerHTML = fileList;
+    }
+
+    // Function to process the files using an AJAX request
+    function processFiles(files) {
+        const formData = new FormData();
+        Array.from(files).forEach(file => {
+            formData.append('image', file);
+        });
+
+        // Obtén el token CSRF de la cookie
+        const csrfToken = getCookie('csrftoken');
+
+        // Agrega el token CSRF a los encabezados de la solicitud
+        const headers = {
+            'X-CSRFToken': csrfToken
+        };
+
+        fetch('/tasks/task/process-image', {
+            method: 'POST',
+            body: formData,
+            headers: headers
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the Django view here
+            console.log(data);
+        });
+    }
+
+    imageDropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageDropZone.classList.add('drag-over');
+    });
+
+    imageDropZone.addEventListener('dragleave', () => {
+        imageDropZone.classList.remove('drag-over');
+    });
+
+    imageDropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageDropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        carImageInput.files = files;
+        updateImageList(files);
+        processFiles(files);
+    });
+
+    // Función para obtener el valor de la cookie
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    const marcaInput = document.getElementById('marca');
+    
+    // Definir una lista de marcas de coches (puedes agregar más según tus necesidades)
+    const allCarBrands = [
+        "Audi", "BMW", "Mercedes-Benz", "Toyota", "Honda", "Ford", "Chevrolet", "Volkswagen", /* Agrega más marcas aquí */
+    ];
+
+    // Utiliza jQuery UI Autocomplete para habilitar la autocompletación en el campo "Marca"
+    $(document).ready(function () {
+        $(marcaInput).autocomplete({
+            source: allCarBrands
+        });
+    });
+</script>
+
+
+</main>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="flex justify-center items-center h-screen">
+  <div class="w-2/4 p-6 bg-white shadow-2xl border border-gray-200 rounded-lg flex flex-col">
+      <form action="{% url 'payment' car_id=car_id %}" method="POST" id="payment-form">
+      {% csrf_token %}
+      <h2 class="text-base font-semibold leading-7 text-gray-900">Payment Process</h2>
+      <br>
+
+      <div class="relative z-0 w-full mb-6 group">
+          <input type="text" id="id_nombre" name="nombre" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+          <label for="id_nombre" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-6 group">
+          <input type="text" id="id_direccion" name="direccion" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+          <label for="id_direccion" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Dirección</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-6 group">
+        <input type="text" id="id_ciudad" name="ciudad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        <label for="id_ciudad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ciudad</label>
+      </div>
+
+      <div id="card-element">
+        <!-- Stripe Element will be inserted here. -->
+      </div>
+      <div id="card-errors" role="alert"></div>
+      
+      <div class="flex justify-between mb-2 mt-6">
+          <button type="submit" id="submit-button" class="mr-auto text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:bg-blue-900 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Realizar Pago</button>
+      </div>
+
+      </form>
+  </div>
+</div>
+
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    var stripe = Stripe('pk_test_51O7h2bDyrJdNkCPSFWVKDCjJcMAhrjl1L38I9EqNNKwcNv5AttafLBNdDPaoFBWqmePtH8x7iRDU6HNKQTkDT76f00uTOEIs5n') // Replace with your actual Stripe public key
+    var elements = stripe.elements()
+    
+    // Personaliza el estilo de los elementos de Stripe
+    var style = {
+      base: {
+        fontSize: '16px',
+        color: '#32325d'
+      }
+    }
+    
+    // Crea un elemento de tarjeta de crédito y monta en el elemento 'card-element'
+    var card = elements.create('card', { 
+        style: style, 
+        hidePostalCode: true // Add this line to hide the Postal code field
+     })
+    card.mount('#card-element')
+    
+    // Escucha el evento 'change' en el elemento de tarjeta y muestra cualquier error
+    card.on('change', function (event) {
+      var displayError = document.getElementById('card-errors')
+      if (event.error) {
+        displayError.textContent = event.error.message
+      } else {
+        displayError.textContent = ''
+      }
+    })
+    
+    var form = document.getElementById('payment-form')
+    var submitButton = document.getElementById('submit-button')
+    
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+      submitButton.disabled = true // Disable the submit button while processing
+  
+      stripe.createToken(card).then(function (result) {
+        if (result.error) {
+          var errorElement = document.getElementById('card-errors')
+          errorElement.textContent = result.error.message
+          submitButton.disabled = false // Re-enable the submit button
+        } else {
+          var token = result.token.id
+          console.log('Token:', token)
+  
+          // Add the token to a hidden input field
+          var hiddenInput = document.createElement('input')
+          hiddenInput.setAttribute('type', 'hidden')
+          hiddenInput.setAttribute('name', 'stripeToken')
+          hiddenInput.setAttribute('value', token)
+          form.appendChild(hiddenInput)
+  
+          // Add the additional fields to hidden input fields
+          var nombre = document.getElementById('id_nombre').value
+          var direccion = document.getElementById('id_direccion').value
+          var ciudad = document.getElementById('id_ciudad').value
+  
+          var hiddenNombre = document.createElement('input')
+          hiddenNombre.setAttribute('type', 'hidden')
+          hiddenNombre.setAttribute('name', 'nombre')
+          hiddenNombre.setAttribute('value', nombre)
+          form.appendChild(hiddenNombre)
+  
+          var hiddenDireccion = document.createElement('input')
+          hiddenDireccion.setAttribute('type', 'hidden')
+          hiddenDireccion.setAttribute('name', 'direccion')
+          hiddenDireccion.setAttribute('value', direccion)
+          form.appendChild(hiddenDireccion)
+  
+          var hiddenCiudad = document.createElement('input')
+          hiddenCiudad.setAttribute('type', 'hidden')
+          hiddenCiudad.setAttribute('name', 'ciudad')
+          hiddenCiudad.setAttribute('value', ciudad)
+          form.appendChild(hiddenCiudad)
+  
+          // Now you can submit the form to your server
+          form.submit()
+        }
+      })
+    })
+  </script>
+{% endblock %}

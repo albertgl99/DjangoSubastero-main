@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1 class="secondary">{{car.title}}</h1>
+
+            {{error}}
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                
+                <h2>Images:</h2>
+                <div class="image-gallery">
+                    {% for image in images %}
+                        <img src="{{ image.imagen.url }}" alt="Image" width="200" height="200">
+                    {% endfor %}
+                </div>
+                
+                <button class="btn btn-primary">
+                    Update
+                </button>
+            </form>
+                <div class="mt-5 d-flex">
+                    
+                    <form action="{% url 'complete_car' car.id %}" method="POST">
+                        {% csrf_token %}
+        
+                        <button class="btn btn-secondary">
+                            Complete
+                        </button>
+                    </form>
+        
+                    <form action="{% url 'delete_car' car.id %}" method="POST">
+                        {% csrf_token %}
+        
+                        <button class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+                        
+                    </div>
+                </div>
+            </main>
+
+{% endblock %}

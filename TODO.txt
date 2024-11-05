@@ -1,0 +1,15 @@
+Mejorar login y signup (ocupar toda la pantalla pillar ideas)
+
+404:
+1- Collect static, no pilla los ficheros, por el debug false
+
+create_task:
+mirar si se puede modificar el msj de error del input
+afinar regexp todo num pero num chars undefined
+fecha subasta no dejar escribir  
+
+
+el frontend dice:
+
+- car_detail tira de forms.py no se puede estilar
+- la imagen del home no deja pillarla xk es un dict cambiar o mirar de solo tirar la 1era

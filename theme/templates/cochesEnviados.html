@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+  <main class="flex justify-center items-center h-screen mb-96 mt-24">
+    <div class="w-3/4 p-6 mt-auto bg-white shadow-2xl border border-gray-200 rounded-lg flex flex-col">
+        <h1 class="text-4xl text-black text-center font-bold mb-6">Coches enviados</h1>
+
+          {% for car in cars %}
+          <li class="flex justify-center items-center">
+            <div class="mb-12">
+            <a class="list-group-item" href="{% url 'car_detail' car.id %}">
+              <p>
+                <a class="text-black py-2 px-4 bg-blue-700" href="{% url 'aprobarCoche' car.id %}">Subastar</a>
+              </p>
+              <header class="d-flex justify-content-between">
+                {% if car.important %}
+                <h1 class="fw-bold text-success">{{ car.title }}</h1>
+                <p>{{ car.user.username }}</p>
+                {% else %}
+                <h1 class="fw-bold">{{ car.title }}</h1>
+                {% endif %}
+              </header>
+              
+              <p>{{ car.description }}</p>
+              
+              <p>{{ car.important }}</p>
+              <p>{{ car.datecompleted|date:'M j Y:y' }}</p>
+              <p>
+                Marca: <strong>{{ car.marca }}</strong>
+              </p>
+              <p>
+                Modelo: <strong>{{ car.modelo }}</strong>
+              </p>
+              <p>
+                Año: <strong>{{ car.ano }}</strong>
+              </p>
+              <p>
+                cilindrada: <strong>{{ car.cilindrada }}</strong>
+              </p>
+              <p>
+                Kilómetros: <strong>{{ car.km }}</strong>
+              </p>
+              <p>
+                Precio estimado: <strong>{{ car.precioventa }}</strong>
+              </p>
+              <p>
+                Fecha inicio de subasta: <strong>{{ car.FechaSubasta }}</strong>
+              </p>
+                     
+              <!-- Loop through images associated with this car -->
+              <div class="image-gallery">
+                {% for image in car_images|get_car_images:car %}
+                <img src="{{ image.imagen.url }}" alt="Image" width="50" height="50" />
+                {% endfor %}
+              </div>
+            </a>
+          </li>
+            {% endfor %}
+      </div>
+    </div>
+  </main>
+{% endblock %}

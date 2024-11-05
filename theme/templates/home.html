@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load dict_tags %}
+
+{% block content %}
+
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+
+<div class="grid place-items-center h-screen gap-4 m-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+  {% for car in cars %}
+  <div class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="{% url 'car_detail' car.id %}">
+      <img class="p-4 rounded-t-lg w-[32rem] h-[32rem]" src="\theme\static\img\car1.jpg" alt="product image" />
+    </a>
+  <div class="px-5 pb-5">
+        <a href="#">
+          <h5 class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ car.ano }} {{ car.marca }} {{ car.modelo }}</h5>
+        </a>
+        
+        <div class="mb-4"></div>
+        
+        <div class="flex items-center justify-between">
+          <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ car_pujas|get_item:car }}€</span>
+          <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Puja</a>
+        </div>         
+      </div>
+    </a>
+  </div>         
+  {% endfor %}
+</div>
+
+
+{% endblock %}
